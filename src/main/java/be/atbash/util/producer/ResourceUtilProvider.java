@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.literal;
+package be.atbash.util.producer;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.util.AnnotationLiteral;
+import be.atbash.util.resource.ResourceUtil;
 
-/**
- * Literal for the {@link Any} annotation.
- */
-// Copied from DeltaSpike
-public class AnyLiteral extends AnnotationLiteral<Any> implements Any {
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+
+@ApplicationScoped  // Only annotated classes as defined in beans.xml
+public class ResourceUtilProvider {
+
+    @Produces
+    public ResourceUtil produceInstance() {
+        return ResourceUtil.getInstance();
+    }
+
 }

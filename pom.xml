@@ -22,9 +22,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.atbash.utils</groupId>
-    <artifactId>utils-parent</artifactId>
-    <version>1.2.0</version>
-    <packaging>pom</packaging>
+    <artifactId>utils-cdi</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Utilities for CDI</name>
+    <description>
+        Some utilities only requiring CDI 1.1
+    </description>
+    <inceptionYear>2014</inceptionYear> <!-- Some classes are created for the first time in that year -->
+    <url>https://github.com/atbashEE/atbash-utils-cdi/tree/javax</url>
 
     <properties>
 
@@ -40,11 +47,6 @@
         <documentation.skip>false</documentation.skip>
 
     </properties>
-
-    <name>Atbash Utils</name>
-    <inceptionYear>2014</inceptionYear> <!-- Some classes are created for the first time in that year -->
-    <description>Atbash Utils parent</description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
 
     <developers>
         <developer>
@@ -66,19 +68,27 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/atbashEE/atbash-utils.git</connection>
-        <developerConnection>scm:git:ssh://github.com:atbashEE/atbash-utils.git</developerConnection>
-        <url>http://github.com/atbashEE/atbash-utils/tree/master</url>
+        <connection>scm:git:git://github.com/atbashEE/atbash-utils-cdi.git</connection>
+        <developerConnection>scm:git:ssh://github.com:atbashEE/atbash-utils-cdi.git</developerConnection>
+        <url>http://github.com/atbashEE/atbash-utils-cdi/tree/javax</url>
     </scm>
 
-    <modules>
-        <module>test-resources</module>
-        <module>utils-se</module>
-        <!--module>utils-cdi</module>
-        <module>utils-jsf</module-->
-    </modules>
+
 
     <dependencies>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>be.atbash.utils</groupId>
+            <artifactId>utils-se</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -86,7 +96,14 @@
             <version>1.7.36</version>
         </dependency>
 
-        <!-- testing -->
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -98,7 +115,7 @@
 
     <build>
         <plugins>
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
                 <version>1.16</version>
@@ -117,7 +134,33 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>be.atbash.util.cdi</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.asciidoctor</groupId>
