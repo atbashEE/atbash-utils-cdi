@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,17 @@
  */
 package be.atbash.util.producer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import be.atbash.util.resource.ResourceUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.InjectionPoint;
 
-/**
- *
- */
 @ApplicationScoped  // Only annotated classes as defined in beans.xml
-public class LogProducer {
+public class ResourceUtilProvider {
 
     @Produces
-    public Logger produceLogger(InjectionPoint injectionPoint) {
-        return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
+    public ResourceUtil produceInstance() {
+        return ResourceUtil.getInstance();
     }
 
-    public static Logger getLogger(Class<?> targetClass) {
-        return LoggerFactory.getLogger(targetClass);
-    }
 }

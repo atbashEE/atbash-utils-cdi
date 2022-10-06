@@ -22,9 +22,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.atbash.jakarta.utils</groupId>
-    <artifactId>utils-parent</artifactId>
-    <version>1.1.0</version>
-    <packaging>pom</packaging>
+    <artifactId>utils-cdi</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Jakarta Utilities for CDI</name>
+    <description>
+        Some utilities only requiring Jakarta CDI 3.x
+    </description>
+    <url>https://github.com/atbashEE/atbash-utils-cdi</url>
 
     <properties>
 
@@ -40,10 +45,7 @@
 
     </properties>
 
-    <name>Atbash Jakarta Utils</name>
     <inceptionYear>2014</inceptionYear> <!-- Some classes are created for the first time in that year -->
-    <description>Atbash Jakarta Utils parent</description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
 
     <developers>
         <developer>
@@ -70,12 +72,50 @@
         <url>https://github.com/atbashEE/atbash-utils/tree/master</url>
     </scm>
 
-    <modules>
-        <module>utils-cdi</module>
-        <module>utils-jsf</module>
-    </modules>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.el</groupId>
+                    <artifactId>jakarta.el-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.interceptor</groupId>
+                    <artifactId>jakarta.interceptor-api</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>jakarta.ejb</groupId>
+                    <artifactId>jakarta.ejb-api</artifactId>
+                </exclusion>
+
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.interceptor</groupId>
+            <artifactId>jakarta.interceptor-api</artifactId>
+            <version>2.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>be.atbash.utils</groupId>
+            <artifactId>utils-se</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -84,6 +124,7 @@
         </dependency>
 
         <!-- testing -->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -91,10 +132,43 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.6.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>be.atbash.jakarta.util.cdi</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
